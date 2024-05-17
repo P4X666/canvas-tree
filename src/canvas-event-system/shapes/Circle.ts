@@ -18,7 +18,7 @@ export default class Circle extends Base {
     this.props.strokeWidth = props.strokeWidth || 1;
   }
 
-  draw(ctx: CanvasRenderingContext2D, osCtx: OffscreenCanvasRenderingContext2D) {
+  draw(ctx: CanvasRenderingContext2D, osCtx: OffscreenCanvasRenderingContext2D, scale: number) {
     const { x, y, radius, strokeColor, strokeWidth, fillColor } = this.props;
 
     ctx.save();
@@ -26,7 +26,7 @@ export default class Circle extends Base {
     ctx.fillStyle = fillColor;
     ctx.strokeStyle = strokeColor;
     ctx.lineWidth = strokeWidth;
-    ctx.arc(x, y, radius, 0, Math.PI * 2);
+    ctx.arc(x*scale, y*scale, radius*scale, 0, Math.PI * 2);
     ctx.fill();
     ctx.stroke();
     ctx.restore();
@@ -38,7 +38,7 @@ export default class Circle extends Base {
     osCtx.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`;
     osCtx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${a})`;
     osCtx.lineWidth = strokeWidth;
-    osCtx.arc(x, y, radius, 0, Math.PI * 2);
+    osCtx.arc(x*scale, y*scale, radius*scale, 0, Math.PI * 2);
     osCtx.fill();
     osCtx.stroke();
     osCtx.restore();

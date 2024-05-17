@@ -10,7 +10,7 @@ export default class Base implements Shape {
     this.listeners = {};
   }
 
-  draw(ctx: CanvasRenderingContext2D, osCtx: OffscreenCanvasRenderingContext2D): void {
+  draw(ctx: CanvasRenderingContext2D, osCtx: OffscreenCanvasRenderingContext2D, scale: number): void {
     throw new Error('Method not implemented.');
   }
 

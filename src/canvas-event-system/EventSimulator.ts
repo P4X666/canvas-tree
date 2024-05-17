@@ -23,33 +23,29 @@ export default class EventSimulator {
 
   addAction(action: Action, evt: MouseEvent) {
     const { type, id } = action;
-
-    // mousemove
-    if (type === ActionType.Move) {
-      this.fire(id, EventNames.mousemove, evt);
+    const actionHandleMap = {
+      // mousemove
+      [ActionType.Move]: () => {
+        this.fire(id, EventNames.mousemove, evt);
+        // mouseover
+        // mouseenter
+        if (!this.lastMoveId || this.lastMoveId !== id) {
+          this.fire(id, EventNames.mouseenter, evt);
+          this.fire(this.lastMoveId, EventNames.mouseleave, evt);
+        }
+      },
+      [ActionType.Down]: () => {
+        this.fire(id, EventNames.mousedown, evt);
+      },
+      [ActionType.Up]: () => {
+        this.fire(id, EventNames.mouseup, evt);
+        // click
+        if (this.lastDownId === id) {
+          this.fire(id, EventNames.click, evt);
+        }
+      },
     }
-
-    // mouseover
-    // mouseenter
-    if (type === ActionType.Move && (!this.lastMoveId || this.lastMoveId !== id)) {
-      this.fire(id, EventNames.mouseenter, evt);
-      this.fire(this.lastMoveId, EventNames.mouseleave, evt);
-    }
-
-    // mousedown
-    if (type === ActionType.Down) {
-      this.fire(id, EventNames.mousedown, evt);
-    }
-
-    // mouseup
-    if (type === ActionType.Up) {
-      this.fire(id, EventNames.mouseup, evt);
-    }
-
-    // click
-    if (type === ActionType.Up && this.lastDownId === id) {
-      this.fire(id, EventNames.click, evt);
-    }
+    actionHandleMap[type]()
 
     if (type === ActionType.Move) {
       this.lastMoveId = action.id;

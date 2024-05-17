@@ -33,19 +33,19 @@ stage.add(circle);
 // let scene = new Scene(canvas);
 // scene.draw();
 
-// const zoomInBtn = document.querySelector('#zoomIn') as HTMLButtonElement;
-// zoomInBtn.addEventListener('click', () => {
-//   // 放大
-//   scene.zoomIn();
-// })
+const zoomInBtn = document.querySelector('#zoomIn') as HTMLButtonElement;
+zoomInBtn.addEventListener('click', () => {
+  // 放大
+  stage.zoomIn();
+})
 
-// const zoomOutBtn = document.querySelector('#zoomOut') as HTMLButtonElement;
-// zoomOutBtn.addEventListener('click', () => {
-//   // 缩小
-//   scene.zoomOut();
-// })
+const zoomOutBtn = document.querySelector('#zoomOut') as HTMLButtonElement;
+zoomOutBtn.addEventListener('click', () => {
+  // 缩小
+  stage.zoomOut();
+})
 
-// const resetBtn = document.querySelector('#reset') as HTMLButtonElement;
-// resetBtn.addEventListener('click', () => {
-//   scene.reset();
-// })
+const resetBtn = document.querySelector('#reset') as HTMLButtonElement;
+resetBtn.addEventListener('click', () => {
+  stage.reset();
+})
