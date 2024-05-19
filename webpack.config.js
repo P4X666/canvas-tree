@@ -9,9 +9,6 @@ module.exports = {
     filename: "[name].js",
     path: path.resolve(__dirname, "dist"),
   },
-  alias: {
-    '@': path.resolve(__dirname, 'src')
-  },
   module: {
     rules: [
       {
@@ -28,5 +25,8 @@ module.exports = {
   },
   resolve: {
     extensions: [".ts", ".js"],
+    alias: {
+      '@/': path.resolve(__dirname, 'src/')
+    },
   },
 };

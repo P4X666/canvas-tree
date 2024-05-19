@@ -23,6 +23,9 @@ export class Stage {
   scale: number;
   preScale: number;
 
+  offset = { x: 0, y: 0 }; // 拖动偏移
+  curOffset = { x: 0, y: 0 }; // 记录上一次的偏移量
+
   x = 0; // 记录鼠标点击Canvas时的横坐标
   y = 0; // 记录鼠标点击Canvas时的纵坐标
   private nodes: Shape[] = []; // 记录canvas上面所有的节点
@@ -60,6 +63,9 @@ export class Stage {
     this.canvas.addEventListener('mouseup', this.handleCreator(ActionType.Up));
     this.canvas.addEventListener('mousemove', this.handleCreator(ActionType.Move));
     this.canvas.addEventListener('mousewheel', (ev) => this.onMousewheel(ev as WheelEvent));
+    this.canvas.addEventListener('mousedown', (ev) => this.onMousedown(ev));
+    this.onMousemove = this.onMousemove.bind(this)
+    this.onMouseup = this.onMouseup.bind(this)
   }
 
   add(shape: Shape) {
@@ -101,7 +107,7 @@ export class Stage {
 
   onMousewheel(e: WheelEvent) {
     e.preventDefault();
-    
+
     this.mousePosition.x = e.offsetX; // 记录当前鼠标点击的横坐标
     this.mousePosition.y = e.offsetY; // 记录当前鼠标点击的纵坐标
     if (e.deltaY < 0) {
@@ -123,8 +129,13 @@ export class Stage {
     this.zoom();
   }
   zoom() {
+    this.offset.x = this.mousePosition.x - (this.mousePosition.x - this.offset.x) * this.scale / this.preScale;
+    this.offset.y = this.mousePosition.y - (this.mousePosition.y - this.offset.y) * this.scale / this.preScale;
+
     this.paint();
     this.preScale = this.scale;
+    this.curOffset.x = this.offset.x;
+    this.curOffset.y = this.offset.y;
   }
   clear() {
     this.canvas.width = this.width;
@@ -133,13 +144,15 @@ export class Stage {
 
   paint() {
     this.clear();
+    this.ctx.translate(this.offset.x, this.offset.y);
+    this.osCtx.translate(this.offset.x, this.offset.y);
     this.ctx.scale(this.scale, this.scale);
     this.osCtx.scale(this.scale, this.scale);
     this.draw();
   }
   zoomIn() {
     this.scale = parseFloat((this.scaleStep + this.scale).toFixed(2))
-    
+
     if (this.scale > this.maxScale) {
       this.scale = this.maxScale;
       return;
@@ -160,10 +173,39 @@ export class Stage {
     this.zoom();
   }
 
+  onMousedown(e: MouseEvent) {
+    console.log('onMousedown');
+
+    if (e.button === 0) {
+      // 鼠标左键
+      this.x = e.x;
+      this.y = e.y
+
+      window.addEventListener('mousemove', this.onMousemove);
+      window.addEventListener('mouseup', this.onMouseup)
+    }
+  }
+
+  onMousemove(e: MouseEvent) {
+    this.offset.x = this.curOffset.x + (e.x - this.x);
+    this.offset.y = this.curOffset.y + (e.y - this.y);
+
+    this.paint();
+  }
+
+  onMouseup() {
+    this.curOffset.x = this.offset.x;
+    this.curOffset.y = this.offset.y;
+    window.removeEventListener('mousemove', this.onMousemove);
+    window.removeEventListener('mouseup', this.onMouseup);
+  }
+
   reset() {
     this.clear();
     this.scale = this.dpr; // 默认缩放
     this.preScale = this.dpr; // 上一次缩放
+    this.offset = { x: 0, y: 0 }; // 拖动偏移
+    this.curOffset = { x: 0, y: 0 }; // 当前偏移
     this.mousePosition = { x: 0, y: 0 };
     this.draw();
   };
