@@ -19,7 +19,7 @@ export default class Rect extends Base {
     this.props.strokeWidth = props.strokeWidth || 1;
   }
 
-  draw(ctx: CanvasRenderingContext2D, osCtx: OffscreenCanvasRenderingContext2D, scale: number) {
+  draw(ctx: CanvasRenderingContext2D, osCtx: OffscreenCanvasRenderingContext2D) {
     const { x, y, width, height, strokeColor, strokeWidth, fillColor } = this.props;
 
     ctx.save();
@@ -27,7 +27,7 @@ export default class Rect extends Base {
     ctx.strokeStyle = strokeColor;
     ctx.lineWidth = strokeWidth;
     ctx.fillStyle = fillColor;
-    ctx.rect(x*scale, y*scale, width*scale, height*scale);
+    ctx.rect(x, y, width, height);
     ctx.fill();
     ctx.stroke();
     ctx.restore();
@@ -38,7 +38,7 @@ export default class Rect extends Base {
     osCtx.beginPath();
     osCtx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${a})`;
     osCtx.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`;
-    osCtx.rect(x*scale, y*scale, width*scale, height*scale);
+    osCtx.rect(x, y, width, height);
     osCtx.fill();
     osCtx.stroke();
     osCtx.restore();

@@ -82,11 +82,11 @@ export class Stage {
 
   draw(shape?: Shape) {
     if (shape) {
-      shape.draw(this.ctx, this.osCtx, this.scale);
+      shape.draw(this.ctx, this.osCtx);
       return
     }
     for (const shape of this.nodes) {
-      shape.draw(this.ctx, this.osCtx, this.scale);
+      shape.draw(this.ctx, this.osCtx);
     }
   }
 
