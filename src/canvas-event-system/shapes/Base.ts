@@ -3,7 +3,7 @@ import { createId } from '../helpers';
 
 export default class Base implements Shape {
   private listeners: { [eventName: string]: Listener[] };
-  public id: string;
+  private id: string;
 
   constructor() {
     this.id = createId();
