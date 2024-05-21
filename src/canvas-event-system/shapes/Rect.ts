@@ -19,6 +19,7 @@ export default class Rect extends Base {
     this.props.strokeWidth = props.strokeWidth || 1;
   }
 
+  linetoNodeArr: Rect[] = []
   draw(ctx: CanvasRenderingContext2D, osCtx: OffscreenCanvasRenderingContext2D) {
     const { x, y, width, height, strokeColor, strokeWidth, fillColor } = this.props;
 
