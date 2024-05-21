@@ -31,7 +31,7 @@ export default class Circle extends Base {
     ctx.stroke();
     ctx.restore();
 
-    const [r, g, b, a] = idToRgba(this.getId());
+    const [r, g, b, a] = idToRgba(this.id);
 
     osCtx.save();
     osCtx.beginPath();
