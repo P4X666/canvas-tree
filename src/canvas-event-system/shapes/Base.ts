@@ -1,10 +1,13 @@
-import { EventNames, Listener, Shape } from './types';
+import { EventNames, Key, Listener } from './types';
 import { createId } from '../helpers';
 
-export default class Base implements Shape {
+export default class Base {
   private listeners: { [eventName: string]: Listener[] };
-  public id: string;
+  /** 内部使用 */
+  private id: string;
 
+  /** 外部区分节点 */
+  public key: Key
   constructor() {
     this.id = createId();
     this.listeners = {};

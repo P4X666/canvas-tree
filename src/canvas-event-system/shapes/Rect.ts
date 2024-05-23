@@ -3,6 +3,7 @@ import Base from './Base';
 import PathLine from './PathLine';
 
 interface RectProps {
+  key?: string | number;
   x: number;
   y: number;
   width: number | 'auto';

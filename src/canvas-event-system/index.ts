@@ -1,5 +1,5 @@
 import { rgbaToId } from './helpers';
-import { Shape } from './shapes/types';
+import { Key, Shape } from './shapes/types';
 import EventSimulator, { ActionType } from './EventSimulator';
 export * from './shapes';
 
@@ -9,7 +9,7 @@ export class Stage {
   private ctx: CanvasRenderingContext2D;
   private osCtx: OffscreenCanvasRenderingContext2D;
   private dpr: number;
-  private shapes: Set<string> = new Set();
+  private shapes: Set<Key> = new Set();
   private eventSimulator: EventSimulator;
 
   width: number
@@ -67,7 +67,7 @@ export class Stage {
   }
 
   add(shape: Shape) {
-    const id = shape.getId();
+    const id = shape.key || shape.getId();
     this.eventSimulator.addListeners(id, shape.getListeners());
     this.shapes.add(id);
 

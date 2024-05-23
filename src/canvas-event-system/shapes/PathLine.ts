@@ -36,9 +36,9 @@ export default class PathLine extends Base {
   }
 
   /** 连接点位置的处理 */
-  connectingPoints(start: PathProps['start'], end: PathProps['end']): LinePos|void {
+  connectingPoints(start: PathProps['start'], end: PathProps['end']): LinePos | void {
     // 目前只处理矩形容器
-    if(start.type !== 'rect' || end.type !== 'rect') return
+    if (start.type !== 'rect' || end.type !== 'rect') return
     const location = {
       /** 是否在正上方 */
       top: 0,
@@ -50,60 +50,60 @@ export default class PathLine extends Base {
       right: 0
     }
     if (start.x === end.x) {
-      if (start.y<end.y) {
+      if (start.y < end.y) {
         // start 在 end 的上方
-        location.top=1
-      } else if (start.y>end.y) {
+        location.top = 1
+      } else if (start.y > end.y) {
         // start 在 end 的下方
-        location.bottom=1
+        location.bottom = 1
       } else {
         // start和end的中心点重合，不会连线
       }
     } else if (start.x > end.x) {
       // start 在 end 的右方
-      location.right=1
-      if (start.y<end.y) {
+      location.right = 1
+      if (start.y < end.y) {
         // start 在 end 的上方
-        location.top=1
-      } else if (start.y>end.y) {
+        location.top = 1
+      } else if (start.y > end.y) {
         // start 在 end 的下方
-        location.bottom=1
+        location.bottom = 1
       } else {
-        
+
       }
     } else {
       // start 在 end 的左方
-      location.left=1
-      if (start.y<end.y) {
+      location.left = 1
+      if (start.y < end.y) {
         // start 在 end 的上方
-        location.top=1
-      } else if (start.y>end.y) {
+        location.top = 1
+      } else if (start.y > end.y) {
         // start 在 end 的下方
-        location.bottom=1
+        location.bottom = 1
       } else {
 
       }
     }
     // start 在 end 的正上方
-    if (location.top===1 && location.bottom===0 && location.left===0 && location.right===0) {
-      return {startX: start.x, startY: start.y+start.height/2, endX: end.x, endY: end.y-end.height/2}
+    if (location.top === 1 && location.bottom === 0 && location.left === 0 && location.right === 0) {
+      return { startX: start.x, startY: start.y + start.height / 2, endX: end.x, endY: end.y - end.height / 2 }
     }
     // start 在 end 的正下方
-    if (location.top===0 && location.bottom===1 && location.left===0 && location.right===0) {
-      return {startX: start.x, startY: start.y-start.height/2, endX: end.x, endY: end.y+end.height/2}
+    if (location.top === 0 && location.bottom === 1 && location.left === 0 && location.right === 0) {
+      return { startX: start.x, startY: start.y - start.height / 2, endX: end.x, endY: end.y + end.height / 2 }
     }
     // start 在 end 的左方
-    if (location.top===0 && location.bottom===0 && location.left===1 && location.right===0) {
-      return {startX: start.x + start.width/2, startY: start.y, endX: end.x-end.width/2, endY: end.y}
+    if (location.left === 1 && location.right === 0) {
+      return { startX: start.x + start.width / 2, startY: start.y, endX: end.x - end.width / 2, endY: end.y }
     }
     // start 在 end 的右方
-    if (location.top===0 && location.bottom===0 && location.left===0 && location.right===1) {
-      return {startX: start.x - start.width/2, startY: start.y, endX: end.x+end.width/2, endY: end.y}
+    if (location.left === 0 && location.right === 1) {
+      return { startX: start.x - start.width / 2, startY: start.y, endX: end.x + end.width / 2, endY: end.y }
     }
   }
   /** 绘制箭头 */
   drawArrow(ctx: CanvasRenderingContext2D, linePos: LinePos) {
-    const { startX, startY, endX, endY} = linePos
+    const { startX, startY, endX, endY } = linePos
     const arrowSize = 10;
     const angle = Math.PI / 6;
     const dx = endX - startX;
@@ -121,8 +121,8 @@ export default class PathLine extends Base {
     const { start, end, strokeColor, strokeWidth } = this.props;
 
     const pos = this.connectingPoints(start, end)
-    if(!pos) return
-    const { startX, startY, endX, endY} = pos
+    if (!pos) return
+    const { startX, startY, endX, endY } = pos
 
     ctx.save();
     // 设置线条样式
@@ -138,7 +138,7 @@ export default class PathLine extends Base {
 
     ctx.lineWidth = 2;
     ctx.strokeStyle = strokeColor;
-    
+
     ctx.stroke()
     ctx.restore();
 

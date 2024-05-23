@@ -1,16 +1,12 @@
-export interface Shape {
-  draw(ctx: CanvasRenderingContext2D, osCtx: OffscreenCanvasRenderingContext2D): void;
+import Base from "./Base";
 
-  on(name: string, listener: Listener): void;
-
-  getListeners(): { [name: string]: Listener[] };
-
-  getId(): string;
-}
+export type Shape = Base
 
 export interface Listener {
-  (evt: MouseEvent): void;
+  (evt: MouseEvent, key: string | number): void;
 }
+
+export type Key = string | number
 
 export enum EventNames {
   click = 'click',

@@ -1,4 +1,4 @@
-import { Listener, EventNames } from './shapes';
+import { Listener, EventNames, Key } from './shapes';
 
 export interface Action {
   type: ActionType;
@@ -13,7 +13,7 @@ export enum ActionType {
 
 export default class EventSimulator {
   private listenersMap: {
-    [id: string]: {
+    [id: Key]: {
       [eventName: string]: Listener[];
     };
   } = {};
@@ -55,7 +55,7 @@ export default class EventSimulator {
   }
 
   addListeners(
-    id: string,
+    id: Key,
     listeners: {
       [eventName: string]: Listener[];
     },
@@ -63,9 +63,9 @@ export default class EventSimulator {
     this.listenersMap[id] = listeners;
   }
 
-  fire(id: string, eventName: EventNames, evt: MouseEvent) {
+  fire(id: Key, eventName: EventNames, evt: MouseEvent) {
     if (this.listenersMap[id] && this.listenersMap[id][eventName]) {
-      this.listenersMap[id][eventName].forEach((listener) => listener(evt));
+      this.listenersMap[id][eventName].forEach((listener) => listener(evt, id));
     }
   }
 }
