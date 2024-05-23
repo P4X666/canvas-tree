@@ -30,9 +30,6 @@ export class Stage {
   y = 0; // 记录鼠标点击Canvas时的纵坐标
   private nodes: Shape[] = []; // 记录canvas上面所有的节点
 
-  private _onMousemove: typeof this.onMousemove
-  private _onMouseup: typeof this.onMouseup
-
   constructor(canvas: HTMLCanvasElement) {
     this.init(canvas)
     this.initEventListener()
@@ -67,8 +64,6 @@ export class Stage {
     this.canvas.addEventListener('mousemove', this.handleCreator(ActionType.Move));
     this.canvas.addEventListener('mousewheel', (ev) => this.onMousewheel(ev as WheelEvent));
     this.canvas.addEventListener('mousedown', (ev) => this.onMousedown(ev));
-    this._onMousemove = this.onMousemove.bind(this)
-    this._onMouseup = this.onMouseup.bind(this)
   }
 
   add(shape: Shape) {
@@ -177,30 +172,29 @@ export class Stage {
   }
 
   onMousedown(e: MouseEvent) {
-    console.log('onMousedown');
 
     if (e.button === 0) {
       // 鼠标左键
       this.x = e.x;
       this.y = e.y
 
-      window.addEventListener('mousemove', this._onMousemove);
-      window.addEventListener('mouseup', this._onMouseup)
+      window.addEventListener('mousemove', this.onMousemove);
+      window.addEventListener('mouseup', this.onMouseup)
     }
   }
 
-  onMousemove(e: MouseEvent) {
+  onMousemove = (e: MouseEvent) => {
     this.offset.x = this.curOffset.x + (e.x - this.x);
     this.offset.y = this.curOffset.y + (e.y - this.y);
 
     this.paint();
   }
 
-  onMouseup() {
+  onMouseup = () => {
     this.curOffset.x = this.offset.x;
     this.curOffset.y = this.offset.y;
-    window.removeEventListener('mousemove', this._onMousemove);
-    window.removeEventListener('mouseup', this._onMouseup);
+    window.removeEventListener('mousemove', this.onMousemove);
+    window.removeEventListener('mouseup', this.onMouseup);
   }
 
   reset() {

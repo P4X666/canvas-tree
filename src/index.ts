@@ -21,9 +21,9 @@ for (let i = 0; i < 5; i++) {
   stage.add(rect);
   rectArr.push(rect)
 }
-for (let i = 0; i < rectArr.length-1; i++) {
+for (let i = 0; i < rectArr.length - 1; i++) {
   const rect = rectArr[i];
-  rect.addLineTo(rectArr[i+1])
+  rect.addLineTo(rectArr[i + 1])
 }
 // const circle = new Circle({
 //   x: 200,

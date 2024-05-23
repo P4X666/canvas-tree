@@ -70,7 +70,7 @@ export default class Rect extends Base {
       _width = textInfo.width + this.props.padding[0]
     }
 
-    this.detail = { ...this.detail, x, y, width: _width, height, text: content}
+    this.detail = { ...this.detail, x, y, width: _width, height, text: content }
 
     ctx.save();
     ctx.beginPath();
@@ -112,8 +112,7 @@ export default class Rect extends Base {
     const { x, y, width, height, type } = nodeDetail;
     return { x: x + width / 2, y: y + height / 2, width, height, type }
   }
-  addLineTo(node: Rect, isRender=false) {
-    console.log('addLineTo');
+  addLineTo(node: Rect, isRender = false) {
     if (!isRender) {
       this.linetoNodeArr.push(node)
     }
