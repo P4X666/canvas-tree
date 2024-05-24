@@ -1,4 +1,4 @@
-import { rgbaToId } from './helpers';
+import { convertToPixels, rgbaToId } from './helpers';
 import { Key, Shape } from './shapes/types';
 import EventSimulator, { ActionType } from './EventSimulator';
 export * from './shapes';
@@ -40,8 +40,8 @@ export class Stage {
   init(canvas: HTMLCanvasElement) {
     // 高清屏适配
     const dpr = window.devicePixelRatio;
-    canvas.width = parseInt(canvas.style.width) * dpr;
-    canvas.height = parseInt(canvas.style.height) * dpr;
+    canvas.width = convertToPixels(canvas.style.width) * dpr;
+    canvas.height = convertToPixels(canvas.style.height) * dpr;
     this.width = canvas.width
     this.height = canvas.height
 

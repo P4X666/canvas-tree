@@ -25,3 +25,18 @@ function createOnceId(): string {
     .concat(255)
     .join("-");
 }
+
+/** 统一单位为px */
+export function convertToPixels(value: string) {
+  if (value.endsWith('px')) {
+      return parseInt(value)
+  } else if (value.endsWith('vw')) {
+      return window.innerWidth * (parseInt(value) / 100)
+  } else if (value.endsWith('vh')) {
+      return window.innerHeight * (parseInt(value) / 100)
+  } else if (value.endsWith('rem')) {
+    return parseInt(value) * parseInt(getComputedStyle(document.documentElement).fontSize);
+  } else {
+      throw new Error('Unsupported unit: ' + value)
+  }
+}
